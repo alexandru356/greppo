@@ -1,43 +1,66 @@
 package main
 
 import (
-//	"flag"
+	"flag"
+	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 )
 
 /*
-Phase 2 : add useful flags like -i or -n or -c
--i case insensitivity
+Phase 2 : add useful flags like or -n or -c
 -n line numbers
 -c count matching lines
--v non-matching lines
 and maybe * in the /path/to/file to recursively search
 Test and optimize
-Format : greppo -flag "arguments" /path/to/file 
+Format : greppo -flag "arguments" /path/to/file
 */
 func main(){
-		
-	if len(os.Args) < 3{
+
+	iFlag := flag.Bool("i", false, "case-insensitive match")
+	vFlag := flag.Bool("v", false, "non-matching lines")
+	flag.Parse()
+	
+	args := flag.Args()
+	if len(os.Args) < 2{
 		fmt.Println("Usage: greppo <pattern> <filename>")
 		os.Exit(1)
 	}
 
-	//Access to command-line arguments
-	pattern := os.Args[1]
-	fileName := os.Args[2]
-	
-	data, err := os.ReadFile(fileName)
-	if err != nil {
-		panic(err)
-	}
-	
-	lines := strings.Split(string(data), "\n")
-	for _, line := range lines{
+	pattern := args[0]
+	fileName := args[1]
 
-		if strings.Contains(string(line), pattern){
-			fmt.Println(line)
+	file, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan(){
+		line := scanner.Text()
+
+		if *iFlag {
+			line = strings.ToLower(line)	
+			pattern = strings.ToLower(pattern)
 		}
+		matched := strings.Contains(line, pattern)
+
+		if *vFlag {
+			if !matched {
+				fmt.Println(line)
+			}
+		} else {
+			if matched {
+				fmt.Println(line)
+			}
+		}
+	
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
 	}
 }
