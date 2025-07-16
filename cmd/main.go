@@ -19,6 +19,7 @@ func main(){
 	vFlag := flag.Bool("v", false, "non-matching lines")
 	cFlag := flag.Bool("c", false, "count matching lines")
 	nFlag := flag.Bool("n", false, "matching line with line number")
+	rFlag := flag.Bool("r", false, "Search all files in a dir/subdir")
 
 	flag.Parse()
 	
@@ -32,11 +33,16 @@ func main(){
 	fileName := args[1]
 	
 	options := search.Options{
-		IgnoreCase:  *iFlag,
-		Invert:		 *vFlag,	
-		CountLines:  *cFlag,
+		IgnoreCase:  	*iFlag,
+		Invert:		 	*vFlag,	
+		CountLines:  	*cFlag,
 		ShowLineNumber: *nFlag,
+		Recursive: 		*rFlag,
 	}
-
-	search.Search(fileName, pattern, options)
+	
+	if options.Recursive {
+		search.SearchRecursive(fileName, pattern, options)
+	} else {
+		search.Search(fileName, pattern, options)
+	}
 }
