@@ -12,15 +12,15 @@ import (
 
 // Struct to hold the flags for search
 type Options struct {
-	IgnoreCase 		bool
-	Invert     		bool
-	CountLines 		bool
-	ShowLineNumber 	bool
-	Recursive	   	bool
+	IgnoreCase     bool
+	Invert         bool
+	CountLines     bool
+	ShowLineNumber bool
+	Recursive      bool
 }
 
 func Search(fileName, pattern string, opt Options) {
-	
+
 	file, err := os.Open(fileName)
 
 	if err != nil {
@@ -44,7 +44,7 @@ func Search(fileName, pattern string, opt Options) {
 		}
 
 		matched := strings.Contains(testLine, testPattern)
-		
+
 		if !opt.CountLines && (matched != opt.Invert) {
 			matchCount++
 			if opt.ShowLineNumber {
@@ -53,7 +53,7 @@ func Search(fileName, pattern string, opt Options) {
 				fmt.Println(line)
 			}
 		}
-		
+
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -66,7 +66,7 @@ func Search(fileName, pattern string, opt Options) {
 
 }
 
-func SearchRecursive(path string, pattern string, opt Options){
+func SearchRecursive(path string, pattern string, opt Options) {
 
 	err := filepath.WalkDir(path, func(filePath string, d fs.DirEntry, err error) error {
 		if err != nil {
@@ -78,7 +78,7 @@ func SearchRecursive(path string, pattern string, opt Options){
 		}
 		return nil
 	})
-	
+
 	if err != nil {
 		log.Fatal(err)
 	}

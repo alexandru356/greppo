@@ -3,17 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 	"greppo/internal/search"
+	"os"
 )
 
-/*
-Add recursion
-Cool features + nice errors in case
-Test and optimize
-Format : greppo -flag "arguments" /path/to/file
-*/
-func main(){
+func main() {
 
 	iFlag := flag.Bool("i", false, "case-insensitive match")
 	vFlag := flag.Bool("v", false, "non-matching lines")
@@ -22,24 +16,25 @@ func main(){
 	rFlag := flag.Bool("r", false, "Search all files in a dir/subdir")
 
 	flag.Parse()
-	
+
 	args := flag.Args()
-	if len(os.Args) < 2{
-		fmt.Println("Usage: greppo [flags] <pattern> <filename>")
+	if len(flag.Args()) < 2 {
+		fmt.Println("Usage: greppo [flags] <pattern> <file-or-directory>")
+		flag.PrintDefaults()
 		os.Exit(1)
 	}
 
 	pattern := args[0]
 	fileName := args[1]
-	
+
 	options := search.Options{
-		IgnoreCase:  	*iFlag,
-		Invert:		 	*vFlag,	
-		CountLines:  	*cFlag,
+		IgnoreCase:     *iFlag,
+		Invert:         *vFlag,
+		CountLines:     *cFlag,
 		ShowLineNumber: *nFlag,
-		Recursive: 		*rFlag,
+		Recursive:      *rFlag,
 	}
-	
+
 	if options.Recursive {
 		search.SearchRecursive(fileName, pattern, options)
 	} else {
