@@ -24,5 +24,4 @@ git clone https://github.com/alexandru356/greppo.git
 cd greppo
 go build -o greppo ./cmd
 
-![Go](https://img.shields.io/badge/Go-1.20+-00ADD8?logo=go)
 
