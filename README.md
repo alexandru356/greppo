@@ -15,6 +15,14 @@ Use it for quick pattern matching, recursive search, and filtering lines in file
 - ✅ Recursive search in directories (`-r`)
 ---
 
+## 🧑‍💻 Planned features
+
+- 🎨 Colored output: Highlight matching terms in output
+- 🔍 Regex support: Use regular expressions for advanced matching
+- ⚡ Parallel file traversal: Speed up recursive search on large directories
+
+Have ideas? Feel free to suggest or contribute!
+
 ## 📦 Installation
 
 You’ll need [Go 1.20+](https://golang.org/dl/) installed.
@@ -23,5 +31,3 @@ You’ll need [Go 1.20+](https://golang.org/dl/) installed.
 git clone https://github.com/alexandru356/greppo.git
 cd greppo
 go build -o greppo ./cmd
-
-
